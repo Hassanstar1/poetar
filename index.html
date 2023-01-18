@@ -1,0 +1,88 @@
+<!--<form id="poem-form">-->
+<!--  <label for="poem-input">Enter your poem text in Arabic:</label>-->
+<!--  <textarea id="poem-input" name="poem-input"></textarea>-->
+<!--  <button type="submit">Generate Poem</button>-->
+<!--</form>-->
+
+<!--<div id="genera ted--  text"></div>-->
+
+<!-- index.html -->
+<div class="container">
+  <form method="post" action="{{ url_for('generate_poem') }}">
+    <label for="poem-input">Enter your poem text in Arabic:</label>
+    <textarea id="poem-input" name="poem-input"></textarea>
+    <button type="submit" class="generate-btn">Generate Poem</button>
+  </form>
+
+  <div id="generated-text" class="generated-text">
+    {% for line in generated_text %}
+      <br>{{ line }}</br>
+    {% endfor %}
+  </div>
+</div>
+
+
+<style>
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+form {
+  margin-top: 50px;
+}
+
+label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+}
+
+textarea {
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.generate-btn {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #5e72e4;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.generated-text {
+  margin-top: 50px;
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: justify;
+  word-wrap: break-word;
+}
+</style>
+
+
+
+<script>
+    document.querySelector("#poem-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    var userInput = document.querySelector("#poem-input").value;
+    $.ajax({
+      url: "/generate",
+      type: "POST",
+      data: { user_input: userInput },
+      success: function(data) {
+        document.querySelector("#generated-text").innerHTML = data;
+      }
+    });
+  });
+
+</script>
+
+
